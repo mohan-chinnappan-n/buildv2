@@ -417,11 +417,10 @@ function build_delta() {
     fi
 
 
-    if ((get_os_type == "Darwin")); then
-        jq  '.result.details.componentSuccesses' /tmp/deploy_status.json| pbcopy ; open "https://mohan-chinnappan-n5.github.io/viz/datatable/dt.html?c=json"
-        jq  '.result.details.componentFailures'  /tmp/deploy_status.json| pbcopy ; open "https://mohan-chinnappan-n5.github.io/viz/datatable/dt.html?c=json"
-
-    fi
+    #if ((get_os_type == "Darwin")); then
+    #    jq  '.result.details.componentSuccesses' /tmp/deploy_status.json| pbcopy ; open "https://mohan-chinnappan-n5.github.io/viz/datatable/dt.html?c=json"
+    #    jq  '.result.details.componentFailures'  /tmp/deploy_status.json| pbcopy ; open "https://mohan-chinnappan-n5.github.io/viz/datatable/dt.html?c=json"
+    #fi
     return  "$?"
 
 }
