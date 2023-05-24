@@ -297,7 +297,7 @@ function prep_delta_deploy() {
     sfdx sgd:source:delta -f $from -t $to ${ignoreFileFlag} -o . >${outfile}
     print_msg "Exit status: $? "
     cat ${outfile}
-    prep_detla_deploy_status_success=$(jq -f '.success'  ${outfile})
+    prep_detla_deploy_status_success=$(jq '.success'  ${outfile})
     if [ "$prep_detla_deploy_status_success" == "true" ]; then
         print_msg "Delta deployment prep is success, continuing the deployment..."
 
