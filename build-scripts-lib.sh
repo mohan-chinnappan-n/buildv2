@@ -488,16 +488,16 @@ function build_full() {
         fi
     fi
     #--- now deploy
-    print_msg "sfdx force:source:deploy -p "${srcFolder}" -u ${un}  ${RT}  --json ${checkOnly}   --verbose --loglevel TRACE > /tmp/deploy_status.json " 
-         sfdx force:source:deploy -p "${srcFolder}" -u ${un} "${RT}" --json ${checkOnly}   --verbose --loglevel TRACE > /tmp/deploy_status.json 
+    print_msg "sfdx force:source:deploy -p  "${srcFolder}" -u "${un}"  "${RT}"  --json ${checkOnly}   --verbose --loglevel TRACE > /tmp/deploy_status.json " 
+               sfdx force:source:deploy -p  "${srcFolder}" -u "${un}"  "${RT}"  --json ${checkOnly}   --verbose --loglevel TRACE > /tmp/deploy_status.json 
     exit_status=$?
     print_msg "exit status: ${exit_status}"
     cat /tmp/deploy_status.json  
 
      if [ "$exit_status" == 0 ]; then
-        print_info "delta deploy  success! Continue..."
+        print_info "full deploy  success! Continue..."
     else
-        print_err "delta deploy  Failed!"
+        print_err "full deploy  Failed!"
         exit 2
     fi
 
