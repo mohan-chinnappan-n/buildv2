@@ -480,7 +480,7 @@ function build_full() {
     if [ "${apexClassPath}" = "NONE" ]; then
         print_msg " By passing PMD scan..."
     else
-        if pmd_scan; then
+        if pmd_scan "${apexClassPath}" ; then
             print_msg "After PMD Scan, Continuing the deployment..."
         else
             print_msg "After PMD Scan, Stopping the deployment..."
