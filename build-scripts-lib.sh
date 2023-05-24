@@ -115,8 +115,8 @@ login_using_jwt() {
 
 function handle_pmd_errors() {
   local OUTFILE_JSON='/tmp/out.json'
-    rm ${OUTFILE_JSON}
-    rm /tmp/q.sql
+    rm -f ${OUTFILE_JSON}
+    rm -f /tmp/q.sql
 
     # query the results using SQL
     echo "SELECT COUNT(*) AS CNT   FROM CSV(\"${PMD_OUTPUT}\", {headers:true}) WHERE Priority < ${THRESHOLD}" >/tmp/q.sql
@@ -145,21 +145,19 @@ function pmd_scan() {
     local CODE=$1
 
     print_msg "ApexCodePath for PMD Scan: $CODE"
-    rm ${PMD_OUTPUT} 
+    rm -f ${PMD_OUTPUT} 
     
     echo  "${PMD_PATH}/run.sh pmd -R $RULESET -d ${CODE} -f csv >${PMD_OUTPUT}"
     ${PMD_PATH}/run.sh pmd -R $RULESET -d "${CODE}" -f csv >${PMD_OUTPUT}
+    cat ${PMD_OUTPUT}
     nerrors=$(wc -l ${PMD_OUTPUT})
     
     if [[ $nerrors != 0 ]]; then
-        print_msg "PMD Errors output line count: $nerrors"
-        if handle_pmd_errors; then
-            print_info "No PMD errors, continuing the deployment..."
-            return 0
-        else
             print_err "PMD has errors!, can't continue!"
             return 1
-        fi
+    else 
+            print_info "No PMD errors, continuing the deployment..."
+            return 0
     fi
 
 }
