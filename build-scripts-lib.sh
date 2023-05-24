@@ -124,7 +124,7 @@ function handle_pmd_errors() {
     sfdx mohanc:data:query:sql -q /tmp/q.sql > ${OUTFILE_JSON}
     cat  ${OUTFILE_JSON}
     # check for the errors
-    nerrors=$(sfdx mohanc:data:jq -f '.[].CNT' -i  ${OUTFILE_JSON} )
+    nerrors=$(jq '.[].CNT'  ${OUTFILE_JSON} )
     print_msg "nerrors: $nerrors"
 
     if [ "$nerrors" != 0 ]; then
@@ -153,11 +153,14 @@ function pmd_scan() {
     nerrors=$(wc -l ${PMD_OUTPUT})
     
     if [[ $nerrors != 0 ]]; then
-            print_err "PMD has errors!, can't continue!"
-            return 1
-    else 
+        print_msg "PMD Errors output line count: $nerrors"
+        if handle_pmd_errors; then
             print_info "No PMD errors, continuing the deployment..."
             return 0
+        else
+            print_err "PMD has errors!, can't continue!"
+            return 1
+        fi
     fi
 
 }
