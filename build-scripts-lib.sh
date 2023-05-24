@@ -297,7 +297,7 @@ function prep_delta_deploy() {
     sfdx sgd:source:delta -f $from -t $to ${ignoreFileFlag} -o . >${outfile}
     print_msg "Exit status: $? "
     cat ${outfile}
-    prep_detla_deploy_status_success=$(sfdx mohanc:data:jq -f '.success' -i ${outfile})
+    prep_detla_deploy_status_success=$(jq -f '.success'  ${outfile})
     if [ "$prep_detla_deploy_status_success" == "true" ]; then
         print_msg "Delta deployment prep is success, continuing the deployment..."
 
@@ -417,8 +417,8 @@ function build_delta() {
 
 
     if ((get_os_type == "Darwin")); then
-        sfdx mohanc:data:jq -f '.result.details.componentSuccesses' -i /tmp/deploy_status.json| pbcopy ; open "https://mohan-chinnappan-n5.github.io/viz/datatable/dt.html?c=json"
-        sfdx mohanc:data:jq -f '.result.details.componentFailures' -i /tmp/deploy_status.json| pbcopy ; open "https://mohan-chinnappan-n5.github.io/viz/datatable/dt.html?c=json"
+        jq  '.result.details.componentSuccesses' /tmp/deploy_status.json| pbcopy ; open "https://mohan-chinnappan-n5.github.io/viz/datatable/dt.html?c=json"
+        jq  '.result.details.componentFailures'  /tmp/deploy_status.json| pbcopy ; open "https://mohan-chinnappan-n5.github.io/viz/datatable/dt.html?c=json"
 
     fi
     return  "$?"
