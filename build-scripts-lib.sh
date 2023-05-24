@@ -22,7 +22,6 @@ MOHANC_PLUGIN_VERSION="0.0.350"
 #----- PMD variables ----
 #----- configure the following to meet your needs ----
 #------ Refer: https://github.com/mohan-chinnappan-n/cli-dx/blob/master/mdapi/pmd-codescan.md ----
-#RULESET="codeQuality/pmd/apexRuleset.xml"
 RULESET="./pmd/apex_ruleset.xml"
 THRESHOLD=3
 #PMD_PATH="codeQuality/pmd/pmd-bin-6.47.0/bin"
@@ -100,9 +99,9 @@ install_plugins() {
 
 login_using_jwt() {
     print_info "Trying to login using JWT ..."
-    local user="$1"  # sf-pst-cicd@group.apple.com.devops.xyz, mohan.chinnappan.n.sel@gmail.com
-    local server_key="$2" # ${BUILD_SECRETS_PATH}/AutoDeployKey, 
-    local client_id="$3" # 3MVG9kBt168mda_.dKX627bLPDHTSzraOTJVIBxNFOOhGbhRFgaNWG2bFQdgD.IPFMmAu7rsF912IcK4HSdIh 
+    local user="$1"  
+    local server_key="$2" 
+    local client_id="$3" 
     sfdx force:auth:jwt:grant --username ${user} -f ${server_key} -i ${client_id}
     return "$?"
 
