@@ -83,13 +83,9 @@ function to_utc_seconds() {
 #-------------------------
 
 install_plugins() {
-
     print_info "Installing plugins, if required..." 
-
-    if ((get_os_type != "Darwin")); then #only for pipeline runner
-        echo 'y' | sfdx plugins:install sfdx-mohanc-plugins@${MOHANC_PLUGIN_VERSION}
-        echo 'y' | sfdx plugins:install sfdx-git-delta
-    fi
+    echo 'y' | sfdx plugins:install sfdx-mohanc-plugins@${MOHANC_PLUGIN_VERSION}
+    echo 'y' | sfdx plugins:install sfdx-git-delta
 }
 
 
