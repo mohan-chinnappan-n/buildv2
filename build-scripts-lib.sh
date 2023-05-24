@@ -407,6 +407,7 @@ function build_delta() {
                sfdx force:source:deploy -x package/package.xml -u ${un} --${preOrPost}destructivechanges destructiveChanges/destructiveChanges.xml  --json ${checkOnly}  --verbose --loglevel TRACE ${RT} > /tmp/deploy_status.json 
     exit_status=$?
     print_msg "exit status: ${exit_status}"
+    cat /tmp/deploy_status.json  
 
      if [ "$exit_status" == 0 ]; then
         print_info "delta deploy  success! Continue..."
