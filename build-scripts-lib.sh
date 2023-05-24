@@ -488,8 +488,8 @@ function build_full() {
         fi
     fi
     #--- now deploy
-    print_msg "sfdx force:source:deploy -p  "${srcFolder}" -u "${un}"  "${RT}"  --json ${checkOnly}   --verbose --loglevel TRACE > /tmp/deploy_status.json " 
-               sfdx force:source:deploy -p  "${srcFolder}" -u "${un}"  "${RT}"  --json ${checkOnly}   --verbose --loglevel TRACE > /tmp/deploy_status.json 
+    print_msg "sfdx project:deploy:start -d  "${srcFolder}" -u "${un}"  "${RT}"  --json ${checkOnly}   --verbose --loglevel TRACE > /tmp/deploy_status.json " 
+               sfdx project:deploy:start -d  "${srcFolder}" -u "${un}"  "${RT}"  --json ${checkOnly}   --verbose --loglevel TRACE > /tmp/deploy_status.json 
     exit_status=$?
     print_msg "exit status: ${exit_status}"
     cat /tmp/deploy_status.json  
