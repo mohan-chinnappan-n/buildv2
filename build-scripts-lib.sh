@@ -434,15 +434,16 @@ function build_delta() {
 #    exit 2
 #fi
 # build_delta 'patch1' HEAD~4 HEAD 'mohan.chinnappan.n.sel@gmail.com' '/tmp/demo1.txt' '/Users/mchinnappan/treeprj/force-app/main/default/classes' 'post'  ' --testlevel RunLocalTests '
-
+# build_full ${uns[$index]} ${srcFolder}   ${demoFile} "${apexClassPath}" "${prePost}" "${RT}" "${VALIDATE}"
 #-------- complete full build ------
 function build_full() {
     local un=$1
     local srcFolder=$2
     local demo_file=$3
-    local RT=$4
-    local checkOnly=$5
-    local apexClassPath=$6
+    local apexClassPath=$4
+
+    local RT=$5
+    local checkOnly=$6
 
     local os_type=$(get_os_type)
 
@@ -483,8 +484,18 @@ function build_full() {
         fi
     fi
     #--- now deploy
-    print_msg "sfdx force:source:deploy -p "${srcFolder}" -u ${un} $RT  --json ${checkOnly} "
-    sfdx force:source:deploy -p "${srcFolder}" -u ${un} "${RT}" --json "${checkOnly}"
-    print_msg "exit status: $?"
+    echo sfdx force:source:deploy -p "${srcFolder}" -u ${un}  ${RT}  --json ${checkOnly}   --verbose --loglevel TRACE > /tmp/deploy_status.json 
+         sfdx force:source:deploy -p "${srcFolder}" -u ${un} "${RT}" --json ${checkOnly}   --verbose --loglevel TRACE > /tmp/deploy_status.json 
+    exit_status=$?
+    print_msg "exit status: ${exit_status}"
+    cat /tmp/deploy_status.json  
+
+     if [ "$exit_status" == 0 ]; then
+        print_info "delta deploy  success! Continue..."
+    else
+        print_err "delta deploy  Failed!"
+        exit 2
+    fi
+
 
 }
