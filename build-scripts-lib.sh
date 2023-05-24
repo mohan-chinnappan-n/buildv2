@@ -81,12 +81,16 @@ function to_utc_seconds() {
 # Install required plugins
 #-------------------------
 
-install_plugins() {
+install_plugins_delta() {
     print_info "Installing plugins..." 
     echo 'y' | sfdx plugins:install sfdx-mohanc-plugins@${MOHANC_PLUGIN_VERSION}
     echo 'y' | sfdx plugins:install sfdx-git-delta
 }
 
+install_plugins_full() {
+    print_info "Installing plugins..." 
+    echo 'y' | sfdx plugins:install sfdx-mohanc-plugins@${MOHANC_PLUGIN_VERSION}
+}
 
 #install_plugins
 
