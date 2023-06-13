@@ -77,19 +77,34 @@ function to_utc_seconds() {
 }
 
 
+INSTALLED_DELTA_PLUGINS='N'
+INSTALLED_FULL_PLUGINS='N'
+
 #-------------------------
 # Install required plugins
 #-------------------------
 
 install_plugins_delta() {
-    print_info "Installing plugins..." 
-    echo 'y' | sfdx plugins:install sfdx-mohanc-plugins@${MOHANC_PLUGIN_VERSION}
-    echo 'y' | sfdx plugins:install sfdx-git-delta
+    if [[ $INSTALLED_DELTA_PLUGINS = 'N' ]]; then
+        print_info "Installing plugins..." 
+        echo 'y' | sfdx plugins:install sfdx-mohanc-plugins@${MOHANC_PLUGIN_VERSION}
+        echo 'y' | sfdx plugins:install sfdx-git-delta
+        INSTALLED_DELTA_PLUGINS='Y'
+
+    else
+        print_info "install_plugins_delta already done!"
+    fi
+
 }
 
 install_plugins_full() {
-    print_info "Installing plugins..." 
-    echo 'y' | sfdx plugins:install sfdx-mohanc-plugins@${MOHANC_PLUGIN_VERSION}
+    if [[ $INSTALLED_FULL_PLUGINS = 'N' ]]; then
+        print_info "Installing plugins..." 
+        echo 'y' | sfdx plugins:install sfdx-mohanc-plugins@${MOHANC_PLUGIN_VERSION}
+        INSTALLED_FULL_PLUGINS='Y'
+     else
+       print_info "install_plugins_full already done!"
+    fi
 }
 
 #install_plugins
