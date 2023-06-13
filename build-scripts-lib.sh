@@ -405,10 +405,18 @@ function build_delta() {
         print_msg "After delta deployment prep errors, Stopping the deployment..."
         return 1
     fi
-
+    
+    if [[ "$preOrPost" == "NONE" ]]; then 
+    #--- now deploy
+    print_msg "sfdx force:source:deploy -x package/package.xml -u ${un}   --json ${checkOnly}  --verbose --loglevel TRACE ${RT}  > /tmp/deploy_status.json "
+               sfdx force:source:deploy -x package/package.xml -u ${un}   --json ${checkOnly}  --verbose --loglevel TRACE ${RT} > /tmp/deploy_status.json 
+    else 
     #--- now deploy
     print_msg "sfdx force:source:deploy -x package/package.xml -u ${un} --${preOrPost}destructivechanges destructiveChanges/destructiveChanges.xml  --json ${checkOnly}  --verbose --loglevel TRACE ${RT}  > /tmp/deploy_status.json "
                sfdx force:source:deploy -x package/package.xml -u ${un} --${preOrPost}destructivechanges destructiveChanges/destructiveChanges.xml  --json ${checkOnly}  --verbose --loglevel TRACE ${RT} > /tmp/deploy_status.json 
+    
+    fi
+
     exit_status=$?
     print_msg "exit status: ${exit_status}"
     cat /tmp/deploy_status.json  
