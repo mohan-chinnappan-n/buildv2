@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+/!/usr/bin/env bash
 ##------------------------------------
 # Build util script for delta deployment
 #  feb-2023,  mchinnappan
@@ -18,14 +18,15 @@
 _PREFIX='===='
 
 MOHANC_PLUGIN_VERSION="0.0.350"
+DELTA_PLUGIN_VERSION="v5.19.0"
 
 #----- PMD variables ----
 #----- configure the following to meet your needs ----
 #------ Refer: https://github.com/mohan-chinnappan-n/cli-dx/blob/master/mdapi/pmd-codescan.md ----
-RULESET="./pmd/apex_ruleset.xml"
+RULESET="codeQuality/pmd/apex_ruleset.xml"
 THRESHOLD=3
-#PMD_PATH="codeQuality/pmd/pmd-bin-6.47.0/bin"
-PMD_PATH="./pmd/pmd-bin-6.54.0/bin"
+PMD_PATH="codeQuality/pmd/pmd-bin-6.47.0/bin"
+#PMD_PATH="./pmd/pmd-bin-6.54.0/bin"
 #PMD_OUTPUT=${PMD_PATH}/results.csv
 PMD_OUTPUT=/tmp/results.csv
 
@@ -88,7 +89,7 @@ install_plugins_delta() {
     if [[ $INSTALLED_DELTA_PLUGINS = 'N' ]]; then
         print_info "Installing plugins..." 
         echo 'y' | sfdx plugins:install sfdx-mohanc-plugins@${MOHANC_PLUGIN_VERSION}
-        echo 'y' | sfdx plugins:install sfdx-git-delta
+        echo 'y' | sfdx plugins:install sfdx-git-delta@${DELTA_PLUGIN_VERSION}
         INSTALLED_DELTA_PLUGINS='Y'
 
     else
