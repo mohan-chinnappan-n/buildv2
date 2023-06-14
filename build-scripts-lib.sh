@@ -23,7 +23,7 @@ DELTA_PLUGIN_VERSION="v5.19.0"
 #----- PMD variables ----
 #----- configure the following to meet your needs ----
 #------ Refer: https://github.com/mohan-chinnappan-n/cli-dx/blob/master/mdapi/pmd-codescan.md ----
-RULESET="codeQuality/pmd/apex_ruleset.xml"
+RULESET="codeQuality/pmd/apexRuleset.xml"
 THRESHOLD=3
 PMD_PATH="codeQuality/pmd/pmd-bin-6.47.0/bin"
 #PMD_PATH="./pmd/pmd-bin-6.54.0/bin"
