@@ -14,9 +14,11 @@
 # - 6. Deplyment
 ##---------------------
 
+NODEJS_VERSION="16.20.0"
+
 ## upgrade node
 npm install -g n
-n stable
+n ${NODEJS_VERSION} 
 hash -r 
 
 
