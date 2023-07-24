@@ -21,6 +21,8 @@ npm install -g n
 n ${NODEJS_VERSION} 
 hash -r 
 
+node --version
+
 
 #----- GLOBAls
 _PREFIX='===='
