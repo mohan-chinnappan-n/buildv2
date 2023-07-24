@@ -18,7 +18,9 @@
 _PREFIX='===='
 
 MOHANC_PLUGIN_VERSION="0.0.350"
-DELTA_PLUGIN_VERSION="v5.19.0"
+# DELTA_PLUGIN_VERSION="v5.19.0"
+DELTA_PLUGIN_VERSION="v5.24.0"
+
 
 #----- PMD variables ----
 #----- configure the following to meet your needs ----
