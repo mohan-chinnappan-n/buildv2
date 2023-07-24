@@ -17,9 +17,9 @@
 NODEJS_VERSION="16.20.0"
 
 ## upgrade node
-npm install -g n
-n ${NODEJS_VERSION} 
-hash -r 
+#npm install -g n
+#n ${NODEJS_VERSION} 
+#hash -r 
 
 node --version
 
@@ -28,8 +28,8 @@ node --version
 _PREFIX='===='
 
 MOHANC_PLUGIN_VERSION="0.0.350"
-# DELTA_PLUGIN_VERSION="v5.19.0"
-DELTA_PLUGIN_VERSION="v5.24.0"
+DELTA_PLUGIN_VERSION="v5.19.0"
+#DELTA_PLUGIN_VERSION="v5.24.0"
 
 
 #----- PMD variables ----
