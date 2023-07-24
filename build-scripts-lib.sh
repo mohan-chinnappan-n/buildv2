@@ -14,6 +14,10 @@
 # - 6. Deplyment
 ##---------------------
 
+## upgrade node
+npm install -g n
+n stable
+
 #----- GLOBAls
 _PREFIX='===='
 
