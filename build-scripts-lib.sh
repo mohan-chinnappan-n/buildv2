@@ -15,6 +15,8 @@
 ##---------------------
 
 NODEJS_VERSION="16.20.0"
+PACKAGE_XML_VERSION="58.0"
+
 
 ## upgrade node
 #npm install -g n
@@ -333,11 +335,15 @@ function prep_delta_deploy() {
     if [ "$prep_detla_deploy_status_success" == "true" ]; then
         print_msg "Delta deployment prep is success, continuing the deployment..."
 
-        print_info "-------------------------------"
+        print_info "------------Changing the API Version-----------------"
         print_info "package/package.xml"
+        sed -i  "s/<version>[^<]*<\/version>/<version>${PACKAGE_XML_VERSION}<\/version>/" package/package.xml
         cat package/package.xml
-        print_info "-------------------------------"
+        
+        print_info "------------Changing the API Version-----------------"
         print_info "destructiveChanges/destructiveChanges.xml"
+        sed -i  "s/<version>[^<]*<\/version>/<version>${PACKAGE_XML_VERSION}<\/version>/" destructiveChanges/destructiveChanges.xml
+
         cat destructiveChanges/destructiveChanges.xml
         return 0
     else
