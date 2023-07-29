@@ -179,6 +179,8 @@ function handle_pmd_errors() {
 
 function pmd_scan() {
 
+    print_msg "PMD Scan Done Status: ${PMD_SCAN_DONE}"
+
     if [[ $PMD_SCAN_DONE = 'N' ]]; then
 
         local CODE=$1
