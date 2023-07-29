@@ -17,6 +17,8 @@
 NODEJS_VERSION="16.20.0"
 PACKAGE_XML_VERSION="58.0"
 
+PMD_SCAN_DONE="N"
+
 
 ## upgrade node
 #npm install -g n
@@ -176,26 +178,36 @@ function handle_pmd_errors() {
 #-----------------------------------
 
 function pmd_scan() {
-    local CODE=$1
 
-    print_msg "ApexCodePath for PMD Scan: $CODE"
-    rm -f ${PMD_OUTPUT} 
-    
-    echo  "${PMD_PATH}/run.sh pmd -R $RULESET -d ${CODE} -f csv >${PMD_OUTPUT}"
-    ${PMD_PATH}/run.sh pmd -R $RULESET -d "${CODE}" -f csv >${PMD_OUTPUT}
-    cat ${PMD_OUTPUT}
-    nerrors=$(wc -l ${PMD_OUTPUT})
-    
-    if [[ $nerrors != 0 ]]; then
-        print_msg "PMD Errors output line count: $nerrors"
-        if handle_pmd_errors; then
-            print_info "No PMD errors, continuing the deployment..."
-            return 0
-        else
-            print_err "PMD has errors!, can't continue!"
-            return 1
+    if [[ $PMD_SCAN_DONE = 'N' ]]; then
+
+        local CODE=$1
+
+        print_msg "ApexCodePath for PMD Scan: $CODE"
+        rm -f ${PMD_OUTPUT} 
+        
+        echo  "${PMD_PATH}/run.sh pmd -R $RULESET -d ${CODE} -f csv >${PMD_OUTPUT}"
+        ${PMD_PATH}/run.sh pmd -R $RULESET -d "${CODE}" -f csv >${PMD_OUTPUT}
+
+        PMD_SCAN_DONE="Y"
+
+        cat ${PMD_OUTPUT}
+        nerrors=$(wc -l ${PMD_OUTPUT})
+        
+        if [[ $nerrors != 0 ]]; then
+            print_msg "PMD Errors output line count: $nerrors"
+            if handle_pmd_errors; then
+                print_info "No PMD errors, continuing the deployment..."
+                return 0
+            else
+                print_err "PMD has errors!, can't continue!"
+                return 1
+            fi  
         fi
+    else 
+         print_msg "PMD Scan already completed!"
     fi
+
 
 }
 
