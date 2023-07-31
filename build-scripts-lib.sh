@@ -18,6 +18,7 @@ NODEJS_VERSION="16.20.0"
 PACKAGE_XML_VERSION="58.0"
 
 PMD_SCAN_DONE="N"
+DELTA_PKG_PREP_DONE="N"
 
 
 ## upgrade node
@@ -359,6 +360,7 @@ function prep_delta_deploy() {
         sed -i  "s/<version>[^<]*<\/version>/<version>${PACKAGE_XML_VERSION}<\/version>/" destructiveChanges/destructiveChanges.xml
 
         cat destructiveChanges/destructiveChanges.xml
+        DELTA_PKG_PREP_DONE="Y"
         return 0
     else
         print_msg "Delta deployment prep failed!"
@@ -447,11 +449,15 @@ function build_delta() {
     fi
 
     #--- delta deployment prep
-    if prep_delta_deploy $from $to "${DELTA_IGNORE_FILE}" "${DELTA_OUT_FILE}"; then
-        print_msg "After delta deployment prep, Continuing the deployment..."
-    else
-        print_msg "After delta deployment prep errors, Stopping the deployment..."
-        return 1
+    if [[ $DELTA_PKG_PREP_DONE = "N" ]]; then
+        if prep_delta_deploy $from $to "${DELTA_IGNORE_FILE}" "${DELTA_OUT_FILE}"; then
+            print_msg "After delta deployment prep, Continuing the deployment..."
+        else
+            print_msg "After delta deployment prep errors, Stopping the deployment..."
+            return 1
+        fi
+    else 
+        print_msg "DELTA PKG PREP alread done!"
     fi
     
     if [[ "$preOrPost" == "NONE" ]]; then 
