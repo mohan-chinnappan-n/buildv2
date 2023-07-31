@@ -449,6 +449,8 @@ function build_delta() {
     fi
 
     #--- delta deployment prep
+    print_msg "DELTA_PKG_PREP_DONE Status: ${DELTA_PKG_PREP_DONE}"
+
     if [[ $DELTA_PKG_PREP_DONE = "N" ]]; then
         if prep_delta_deploy $from $to "${DELTA_IGNORE_FILE}" "${DELTA_OUT_FILE}"; then
             print_msg "After delta deployment prep, Continuing the deployment..."
