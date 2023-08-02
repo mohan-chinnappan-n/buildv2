@@ -128,7 +128,16 @@ install_plugins_full() {
 #install_plugins
 
 
+#--------------------------------------------------
+# Install woke - for checking non-inclusive lang 
+# make it of pmd_scan
+#--------------------------------------------------
 
+
+install_woke() {
+    print_info "Installing woke..."
+    curl -sSfL https://git.io/getwoke |  bash -s -- -b /usr/local/bin
+}
 
 #------------------------------------
 #  login using jwt
@@ -179,6 +188,9 @@ function handle_pmd_errors() {
 #-----------------------------------
 
 function pmd_scan() {
+
+    install_woke
+    woke
 
     print_msg "PMD Scan Done Status: ${PMD_SCAN_DONE}"
 
@@ -459,7 +471,7 @@ function build_delta() {
             return 1
         fi
     else 
-        print_msg "DELTA PKG PREP alread done!"
+        print_msg "DELTA PKG PREP already done!"
     fi
     
     if [[ "$preOrPost" == "NONE" ]]; then 
