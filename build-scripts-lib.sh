@@ -189,13 +189,12 @@ function handle_pmd_errors() {
 
 function pmd_scan() {
 
-    install_woke
-    woke
-
     print_msg "PMD Scan Done Status: ${PMD_SCAN_DONE}"
 
     if [[ $PMD_SCAN_DONE = 'N' ]]; then
-
+        install_woke
+        woke
+       
         local CODE=$1
 
         print_msg "ApexCodePath for PMD Scan: $CODE"
