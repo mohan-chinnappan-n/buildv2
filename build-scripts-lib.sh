@@ -96,6 +96,31 @@ function to_utc_seconds() {
 
 }
 
+DEPLOY_NOT_REQD="N"
+
+#---------------------------------------
+#   check package.xml is empty or not 
+#---------------------------------------
+
+check_lines_in_pckage_xml() {
+  local file="$1"
+  local num_lines="$2"
+
+  # Get the number of lines in the file using wc
+  local actual_lines=$(wc -l < "$file")
+
+  # Check if the number of lines is equal to the specified number
+  if [ "$actual_lines" -eq "$num_lines" ]; then
+    echo "Y"
+  else
+    echo "N"
+  fi
+}
+
+
+
+
+
 
 INSTALLED_DELTA_PLUGINS='N'
 INSTALLED_FULL_PLUGINS='N'
@@ -367,14 +392,22 @@ function prep_delta_deploy() {
         print_info "package/package.xml"
         sed -i  "s/<version>[^<]*<\/version>/<version>${PACKAGE_XML_VERSION}<\/version>/" package/package.xml
         cat package/package.xml
-        
-        print_info "------------Changing the API Version-----------------"
+
+        DEPLOY_NOT_REQD=$(check_lines_in_pckage_xml 'package/package.xml' 4)
+
+        print_info "------------Changing the API Version-----------------"  
         print_info "destructiveChanges/destructiveChanges.xml"
         sed -i  "s/<version>[^<]*<\/version>/<version>${PACKAGE_XML_VERSION}<\/version>/" destructiveChanges/destructiveChanges.xml
 
         cat destructiveChanges/destructiveChanges.xml
         DELTA_PKG_PREP_DONE="Y"
-        return 0
+
+        if [[ $DEPLOY_NOT_REQD = 'Y' ]]; then
+            print_msg "Delta deployment is not required - empty package.xml"
+            return 1
+        else
+            return 0
+        fi
     else
         print_msg "Delta deployment prep failed!"
         cat ${outfile}
@@ -468,7 +501,7 @@ function build_delta() {
         if prep_delta_deploy $from $to "${DELTA_IGNORE_FILE}" "${DELTA_OUT_FILE}"; then
             print_msg "After delta deployment prep, Continuing the deployment..."
         else
-            print_msg "After delta deployment prep errors, Stopping the deployment..."
+            print_msg "After delta deployment prep errors/empty package.xml, Stopping the deployment..."
             return 1
         fi
     else 
