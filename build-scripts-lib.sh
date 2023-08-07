@@ -394,6 +394,7 @@ function prep_delta_deploy() {
         cat package/package.xml
 
         DEPLOY_NOT_REQD=$(check_lines_in_pckage_xml 'package/package.xml' 4)
+        print_info "DEPLOY_NOT_REQD = $DEPLOY_NOT_REQD"
 
         print_info "------------Changing the API Version-----------------"  
         print_info "destructiveChanges/destructiveChanges.xml"
