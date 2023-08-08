@@ -108,6 +108,7 @@ check_lines_in_pckage_xml() {
 
   # Get the number of lines in the file using wc
   local actual_lines=$(wc -l < "$file")
+  print_info "Lines in package.xml: $actual_lines"
 
   # Check if the number of lines is equal to the specified number
   if [ "$actual_lines" -eq "$num_lines" ]; then
