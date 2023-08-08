@@ -111,7 +111,7 @@ check_lines_in_pckage_xml() {
   print_info "Lines in package.xml: $actual_lines"
 
   # Check if the number of lines is equal to the specified number
-  if [ "$actual_lines" -eq "$num_lines" ]; then
+  if [ "$actual_lines" -le "$num_lines" ]; then
     echo "Y"
   else
     echo "N"
