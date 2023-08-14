@@ -87,14 +87,15 @@ function to_utc_seconds() {
     local in_time="$1"
     local os_type="$2"
 
-
+    echo $(TZ=UTC date -d "$in_time" +%s)
+ 
     # date -j -f "%Y-%m-%d %H:%M:%S" "2022-8-24 18:00:00" "+%s"
     # 1661378400
-    if (($os_type == "Darwin")); then
-        echo $(TZ=UTC date -j -f "%Y-%m-%d %H:%M:%S" "$in_time" "+%s")
-    else
-        echo $(TZ=UTC date -d "$in_time" +%s)
-    fi
+    #if (($os_type == "Darwin")); then
+    #    echo $(TZ=UTC date -j -f "%Y-%m-%d %H:%M:%S" "$in_time" "+%s")
+    #else
+    #    echo $(TZ=UTC date -d "$in_time" +%s)
+    #fi
 
 }
 
