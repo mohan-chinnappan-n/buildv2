@@ -85,7 +85,8 @@ function get_os_type() {
 
 function to_utc_seconds() {
     local in_time="$1"
-    local os_type=$(get_os_type)
+    local os_type="$2"
+
 
     # date -j -f "%Y-%m-%d %H:%M:%S" "2022-8-24 18:00:00" "+%s"
     # 1661378400
@@ -288,8 +289,8 @@ function check_for_demo() {
         print_msg "demo: $demo $os_type"
 
         # convert the utc demo time into seconds (epoch time)
-        demoTime=$(to_utc_seconds "$demo")
-        print_msg "demoTime: ${demoTime}"
+        demoTime=$(to_utc_seconds "$demo" "$os_type")
+        print_msg "demoTime: ${demoTime} for ${os_type}" 
 
         # find the difference in times
         timeDiff="$((currTime - demoTime))"
