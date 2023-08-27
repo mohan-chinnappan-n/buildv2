@@ -99,6 +99,10 @@ function to_utc_seconds() {
 
 }
 
+run_xml_validation() {
+    sfdx mohanc:xml:validate -p . -i
+}
+
 DEPLOY_NOT_REQD="N"
 
 #---------------------------------------
@@ -383,6 +387,10 @@ function prep_delta_deploy() {
     else
         ignoreFileFlag="-i ${ignoreFile}"
     fi
+
+    print_msg "Running xml validation..."
+    run_xml_validation
+    print_info "-----------------------------"
 
     print_msg "running: sfdx sgd:source:delta -f $from -t $to  ${ignoreFileFlag} -o .  > ${outfile}"
     sfdx sgd:source:delta -f $from -t $to ${ignoreFileFlag} -o . >${outfile}
