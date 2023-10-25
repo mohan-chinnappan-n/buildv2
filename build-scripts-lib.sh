@@ -24,9 +24,9 @@ DELTA_PKG_PREP_DONE="N"
 
 
 ## upgrade node
-#npm install -g n
-#n ${NODEJS_VERSION} 
-#hash -r 
+npm install -g n
+n ${NODEJS_VERSION} 
+# hash -r 
 
 node --version
 
