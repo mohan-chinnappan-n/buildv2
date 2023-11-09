@@ -405,6 +405,13 @@ function prep_delta_deploy() {
         sed -i  "s/<version>[^<]*<\/version>/<version>${PACKAGE_XML_VERSION}<\/version>/" package/package.xml
         cat package/package.xml
 
+
+        print_info "------------ContentAssets comment ----------------"
+        print_info "package/package.xml"
+        sed -i  -e '/<types>/,/<\/types>/s/<members>\(custom18_120png\|service_contract_120png\|Status_Green_1png\|Status_Red_1png\|Status_Yellow_4png\)<\/members>/<!--&-->/' package/package.xml 
+        cat package/package.xml
+
+
         DEPLOY_NOT_REQD=$(check_lines_in_pckage_xml 'package/package.xml' 4)
         print_info "DEPLOY_NOT_REQD = $DEPLOY_NOT_REQD"
 
