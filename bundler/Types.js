@@ -1,6 +1,6 @@
 
-// Types.js
-// mohan chinnappan
+// Types.js, part of bundler builder
+// mohan chinnappan 
 export class Types { 
 
 // Mapping of type names to folder names and file extensions
