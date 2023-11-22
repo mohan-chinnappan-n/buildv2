@@ -1,6 +1,6 @@
 
-// typeInfoMap.js
-
+// Types.js
+// mohan chinnappan
 export class Types { 
 
 // Mapping of type names to folder names and file extensions
