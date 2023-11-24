@@ -110,6 +110,17 @@ static typeInfoMap = {
         }
     },
 
+    'MutingPermissionSet': {
+        folderName: 'mutingpermissionsets',
+        getFileAttributes: (member) => {
+            return {
+                folderName: `mutingpermissionsets`,
+                fileNames: [ `${member}.mutingpermissionset-meta.xml`]
+            };
+        }
+    },
+
+
     'Profile': {
         folderName: 'profiles',
         getFileAttributes: (member) => {
@@ -583,6 +594,47 @@ static typeInfoMap = {
             };
         }
     },
+
+    'Group': {
+        folderName: 'groups',
+        getFileAttributes: (member) => {
+                return {
+                    folderName: `groups`,
+                    fileNames: [ `${member}.group-meta.xml`]
+                };
+            }
+     },
+
+     'Group': {
+        folderName: 'groups',
+        getFileAttributes: (member) => {
+                return {
+                    folderName: `groups`,
+                    fileNames: [ `${member}.group-meta.xml`]
+                };
+            }
+     },
+
+     'LightningMessageChannel': {
+        folderName: 'messageChannels',
+        getFileAttributes: (member) => {
+                return {
+                    folderName: `messageChannels`,
+                    fileNames: [ `${member}..messageChannel-meta.xml`]
+                };
+            }
+     },
+     'RestrictionRule': {
+        folderName: 'restrictionRules',
+        getFileAttributes: (member) => {
+                return {
+                    folderName: `restrictionRules`,
+                    fileNames: [ `${member}..rule-meta.xml`]
+                };
+            }
+     },
+
+
     // Add more mappings for other types if needed
 }
 
