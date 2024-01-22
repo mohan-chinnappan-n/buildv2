@@ -1,3 +1,3 @@
      "Problem","Package","File","Priority","Line","Description","Rule set","Rule"
-     "1","","AccountTriggerHandler.cls","1","11","The class 'AccountTriggerHandler' has a Standard Cyclomatic Complexity of 5 (Highest = 10).","Design","StdCyclomaticComplexity"
+     "1","","AccountTriggerHandler.cls","3","11","The class 'AccountTriggerHandler' has a Standard Cyclomatic Complexity of 5 (Highest = 10).","Design","StdCyclomaticComplexity"
      "2","","AccountTriggerHandler.cls","3","11","The class 'AccountTriggerHandler' has a total cyclomatic complexity of 44 (highest 14).","Design","CyclomaticComplexity"

@@ -194,7 +194,6 @@ login_using_jwt() {
 #   handle PMD scan errors
 #-----------------------------------
 
-
 function handle_pmd_errors() {
 
   # Read the CSV file and skip the header line
@@ -205,16 +204,17 @@ function handle_pmd_errors() {
     # Check if priority is numeric
     if [[ $priority =~ ^[0-9]+$ ]]; then
       if [ "$priority" -eq 1 ] || [ "$priority" -eq 2 ]; then
-        echo "Error: Priority is $priority. Exiting with error code 2."
+        print_err "Error: Priority is $priority. Exiting with error code 2."
         return 2
       fi
     fi
   done } < "${PMD_OUTPUT}" 
 
   # If no 1 or 2 priority is found, exit with code 0
-  echo "No 1 or 2 priority found. Exiting with error code 0."
+  print_msg "No 1 or 2 priority found. Exiting with error code 0."
   return 0
 }
+
 
 
 function handle_pmd_errors_2() {
