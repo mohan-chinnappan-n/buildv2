@@ -194,7 +194,30 @@ login_using_jwt() {
 #   handle PMD scan errors
 #-----------------------------------
 
+
 function handle_pmd_errors() {
+
+  # Read the CSV file and skip the header line
+  { read -r; while IFS=, read -r problem package file priority line description rule_set rule; do
+    # Remove double quotes from priority
+    priority=$(echo "$priority" | tr -d '"')
+
+    # Check if priority is numeric
+    if [[ $priority =~ ^[0-9]+$ ]]; then
+      if [ "$priority" -eq 1 ] || [ "$priority" -eq 2 ]; then
+        echo "Error: Priority is $priority. Exiting with error code 2."
+        return 2
+      fi
+    fi
+  done } < "${PMD_OUTPUT}" 
+
+  # If no 1 or 2 priority is found, exit with code 0
+  echo "No 1 or 2 priority found. Exiting with error code 0."
+  return 0
+}
+
+
+function handle_pmd_errors_2() {
   local OUTFILE_JSON='/tmp/out.json'
     rm -f ${OUTFILE_JSON}
     rm -f /tmp/q.sql
