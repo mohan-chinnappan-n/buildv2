@@ -50,7 +50,6 @@ function print_info() {
 # Function to deploy with pre, post, or none option
 # Function to deploy with pre, post, or none option
 
-#!/bin/bash
 
 #######################################################################################################
 # Function: deploy_with_option
@@ -95,21 +94,21 @@ deploy_with_option() {
     local destructive_changes_file="$1"
     local package_file="$2"
     local line_count_arg="$3"
-    local un="$5"
-    local checkOnly="$6"
-    local RT="$7"
+    local un=$5
+    local checkOnly=$6
+    local RT=$7
     local line_count=$(sed '/^\s*$/d' "$destructive_changes_file" | wc -l | xargs)
 
     if [ "$preOrPost" == "NONE" ]; then
         print_msg "No need for destructive changes. Deploying without pre/post option..."
-        print_msg "sfdx force:source:deploy -g -x \"$package_file\" -u $un --json $checkOnly --verbose --loglevel TRACE $RT > /tmp/deploy_status.json"
-        sfdx force:source:deploy -g -x "$package_file" -u "$un" --json "$checkOnly" --verbose --loglevel TRACE "$RT" > /tmp/deploy_status.json
+        print_msg "sfdx force:source:deploy -x \"$package_file\" -u $un --json $checkOnly --verbose --loglevel TRACE $RT > /tmp/deploy_status.json"
+        sfdx force:source:deploy -x "$package_file" -u "$un" --json "$checkOnly" --verbose --loglevel TRACE "$RT" > /tmp/deploy_status.json
         exit_status=$?
     else
         if [ "$line_count" -eq "$line_count_arg" ]; then
             print_msg "No pre/post action required. Deploying without pre/post option..."
-            print_msg "sfdx force:source:deploy -g -x \"$package_file\" -u $un --json $checkOnly --verbose --loglevel TRACE $RT > /tmp/deploy_status.json"
-            sfdx force:source:deploy -g -x "$package_file" -u "$un" --json "$checkOnly" --verbose --loglevel TRACE "$RT" > /tmp/deploy_status.json
+            print_msg "sfdx force:source:deploy  -x \"$package_file\" -u $un --json $checkOnly --verbose --loglevel TRACE $RT > /tmp/deploy_status.json"
+            sfdx force:source:deploy  -x "$package_file" -u "$un" --json "$checkOnly" --verbose --loglevel TRACE "$RT" > /tmp/deploy_status.json
             exit_status=$?
         else
             # Deploy with pre option
@@ -123,6 +122,11 @@ deploy_with_option() {
                 print_msg "Deploying with post option..."
                 print_msg "sfdx force:source:deploy -g -x \"$package_file\" -u $un --postdestructivechanges \"$destructive_changes_file\" --json $checkOnly --verbose --loglevel TRACE $RT > /tmp/deploy_status.json"
                 sfdx force:source:deploy -g -x "$package_file" -u "$un" --postdestructivechanges "$destructive_changes_file" --json "$checkOnly" --verbose --loglevel TRACE "$RT" > /tmp/deploy_status.json
+                exit_status=$?
+            else
+                print_msg "Could not do pre/post action. Deploying without pre/post option..."
+                print_msg "sfdx force:source:deploy  -x \"$package_file\" -u $un --json $checkOnly --verbose --loglevel TRACE $RT > /tmp/deploy_status.json"
+                sfdx force:source:deploy  -x "$package_file" -u "$un" --json "$checkOnly" --verbose --loglevel TRACE "$RT" > /tmp/deploy_status.json
                 exit_status=$?
             fi
         fi
