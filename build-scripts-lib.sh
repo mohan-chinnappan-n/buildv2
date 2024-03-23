@@ -30,6 +30,23 @@ DELTA_PKG_PREP_DONE="N"
 
 node --version
 
+# Function to check and install Python3
+install_python() {
+    # Check if Python 3 is installed
+    if command -v python3 &> /dev/null; then
+        echo "Python 3 is already installed."
+        pip3 -q install argparse
+    else
+        echo "Python 3 not found. Installing..."
+        sudo apt update
+        sudo apt install -y python3
+        echo "Python 3 installed successfully."
+    fi
+}
+
+# Call the function to install Python
+install_python
+
 
 #----- GLOBAls
 _PREFIX='===='
@@ -48,6 +65,7 @@ PMD_PATH="codeQuality/pmd/pmd-bin-6.47.0/bin"
 #PMD_PATH="./pmd/pmd-bin-6.54.0/bin"
 #PMD_OUTPUT=${PMD_PATH}/results.csv
 PMD_OUTPUT=/tmp/results.csv
+PY_PATH="py"
 
 #----- delta deployment variables ----
 DELTA_IGNORE_FILE="./delta/ignore.txt"
@@ -77,6 +95,14 @@ function print_info() {
 function get_os_type() {
     echo $(uname)
 }
+
+function get_org_limits() {
+    #sf org list limits -o  $1
+    sfdx org:list:limits -u $1
+
+}
+
+
 
 #------------------------------------
 #   convert time to utc seconds
@@ -445,6 +471,12 @@ function prep_delta_deploy() {
     run_xml_validation
     print_info "-----------------------------"
 
+
+    print_msg "running diffy..."
+    python3 ${PY_PATH}/git_diff.py --git_repo_path . --from_commitId $from --to_commitId $to    --output_csv /tmp/git-diff.csv 
+    cat /tmp/git-diff.csv
+
+
     print_msg "running: sfdx sgd:source:delta -f $from -t $to  ${ignoreFileFlag} -o .  > ${outfile}"
     sfdx sgd:source:delta -f $from -t $to ${ignoreFileFlag} -o . >${outfile}
     print_msg "Exit status: $? "
@@ -587,8 +619,8 @@ function build_delta() {
                sfdx force:source:deploy -x package/package.xml -u ${un}   --json ${checkOnly}  --verbose --loglevel TRACE ${RT} > /tmp/deploy_status.json 
     else 
     #--- now deploy
-    print_msg "sfdx force:source:deploy -x package/package.xml -u ${un} --${preOrPost}destructivechanges destructiveChanges/destructiveChanges.xml  --json ${checkOnly}  --verbose --loglevel TRACE ${RT}  > /tmp/deploy_status.json "
-               sfdx force:source:deploy -x package/package.xml -u ${un} --${preOrPost}destructivechanges destructiveChanges/destructiveChanges.xml  --json ${checkOnly}  --verbose --loglevel TRACE ${RT} > /tmp/deploy_status.json 
+    print_msg "sfdx force:source:deploy -x package/package.xml -g -u ${un} --${preOrPost}destructivechanges destructiveChanges/destructiveChanges.xml  --json ${checkOnly}  --verbose --loglevel TRACE ${RT}  > /tmp/deploy_status.json "
+               sfdx force:source:deploy -x package/package.xml -g -u ${un} --${preOrPost}destructivechanges destructiveChanges/destructiveChanges.xml  --json ${checkOnly}  --verbose --loglevel TRACE ${RT} > /tmp/deploy_status.json 
     
     fi
 
